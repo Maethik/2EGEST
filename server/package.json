@@ -1,0 +1,14 @@
+{
+  "name": "event-app",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.9.3",
+    "graphql": "^16.8.1",
+    "pg": "^8.11.3"
+  }
+}
