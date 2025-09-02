@@ -1,25 +1,6 @@
 import pool from "./db.js";
 
 const resolvers = {
-  Query: {
-    users: async () => {
-      const { rows } = await pool.query("SELECT * FROM users");
-      return rows;
-    },
-    events: async () => {
-      const { rows } = await pool.query("SELECT * FROM events");
-      return rows;
-    },
-  },
-  Mutation: {
-    addUser: async (_, {name}) => {
-      const { rows } = await pool.query(
-        "INSERT INTO (user) VALUES ($1) RETURNING *"
-        , [name]
-      );
-      return rows[0];
-    }
-  },
   User: {
     events: async (parent) => {
       const { rows } = await pool.query(
@@ -37,6 +18,32 @@ const resolvers = {
       );
       return rows[0];
     },
+  },
+  Query: {
+    users: async () => {
+      const { rows } = await pool.query("SELECT * FROM users");
+      return rows;
+    },
+    events: async () => {
+      const { rows } = await pool.query("SELECT * FROM events");
+      return rows;
+    },
+  },
+  Mutation: {
+    addUser: async (_, {name}) => {
+      const { rows } = await pool.query(
+        "INSERT INTO users (name) VALUES ($1) RETURNING *",
+        [name]
+      );
+      return rows[0];
+    },
+    deleteUser: async (_, {id}) => {
+      const { rowCount } = await pool.query(
+        "DELETE FROM users WHERE id = $1",
+        [id]
+      );
+      return rowCount > 0;
+    }
   }
 };
 
