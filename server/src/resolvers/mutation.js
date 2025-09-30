@@ -17,6 +17,28 @@ export const mutationResolvers = {
         );
         return rowCount > 0;
     },
+    // Update user
+    updateUser: async (_, {id, user}) => {
+        const fields = Object.keys(user || {});
+        if (fields.length === 0) return null;
+
+        const setClause = fields.map((field, index) => `${field} = $${index + 1}`).join(", ");
+        const values = fields.map(f => user[f]);
+
+        const query = `
+            UPDATE users
+            SET ${setClause}
+            WHERE id = $${fields.length + 1}
+            RETURNING *;
+        `;
+
+        const { rows } = await pool.query(
+            query,
+            [...values, id]
+        );
+
+        return rows[0];
+    },
     // Add a new event
     addEvent: async (_, {title, date, organizer}) => {
         const { start, end } = date;
