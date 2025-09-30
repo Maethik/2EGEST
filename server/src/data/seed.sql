@@ -5,7 +5,8 @@ DROP TABLE IF EXISTS event_participants CASCADE;
 
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY,
-	name VARCHAR(50) NOT NULL
+	name VARCHAR(50) NOT NULL,
+	password VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE events (
@@ -22,7 +23,7 @@ CREATE TABLE event_participants (
 	PRIMARY KEY (event_id, user_id)
 );
 
-INSERT INTO users (name) VALUES ('Alice'), ('Bob');
+INSERT INTO users (name, password) VALUES ('Alice', 'Alice'), ('Bob', 'Bob');
 
 INSERT INTO events (title, start_event, end_event, organizer_id) VALUES 
 ('Conférence JS', '2025-09-15 10:00:00', '2025-09-15 12:00:00', 1),
